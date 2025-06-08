@@ -1,0 +1,19 @@
+
+body {
+  font-family: sans-serif;
+  text-align: center;
+  background-color: #f9f9f9;
+}
+#sudoku-container {
+  display: grid;
+  grid-template-columns: repeat(9, 40px);
+  gap: 1px;
+  justify-content: center;
+  margin: 20px;
+}
+#sudoku-container input {
+  width: 38px;
+  height: 38px;
+  text-align: center;
+  font-size: 18px;
+}
