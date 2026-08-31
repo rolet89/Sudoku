@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>Drift-Rennen</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="buehne">
+  <canvas id="game"></canvas>
+
+  <div id="hud">
+    <div class="feld tempo">
+      <span id="tempo">0</span><small>km/h</small>
+    </div>
+    <div class="feld zeiten">
+      <div><b>Runde</b><span id="runde">1</span></div>
+      <div><b>Zeit</b><span id="zeit">--:--.---</span></div>
+      <div><b>Letzte</b><span id="letzte">--:--.---</span></div>
+      <div><b>Beste</b><span id="beste">--:--.---</span></div>
+    </div>
+    <div class="feld drift">
+      <b>Drift</b>
+      <div class="balken"><i id="driftbalken"></i></div>
+      <span id="kameramodus">Kamera: mitdrehend</span>
+    </div>
+    <div id="warnung" class="hidden">Neben der Strecke!</div>
+  </div>
+
+  <div id="hilfe">
+    <strong>Steuerung</strong>
+    <ul>
+      <li><kbd>W</kbd>/<kbd>&uarr;</kbd> Gas &nbsp; <kbd>S</kbd>/<kbd>&darr;</kbd> Bremse &amp; R&uuml;ckw&auml;rts</li>
+      <li><kbd>A</kbd>/<kbd>D</kbd> oder <kbd>&larr;</kbd>/<kbd>&rarr;</kbd> Lenken</li>
+      <li><kbd>Leertaste</kbd> Handbremse &ndash; seitw&auml;rts driften</li>
+      <li><kbd>C</kbd> Kamera umschalten &nbsp; <kbd>R</kbd> zur&uuml;cksetzen</li>
+    </ul>
+    <button id="hilfeZu">Los geht&rsquo;s</button>
+  </div>
+
+  <div id="touch">
+    <div class="seite links">
+      <button class="tbtn" data-taste="left">&#9664;</button>
+      <button class="tbtn" data-taste="right">&#9654;</button>
+    </div>
+    <div class="seite rechts">
+      <button class="tbtn hand" data-taste="brake">Hand</button>
+      <button class="tbtn" data-taste="down">&#9660;</button>
+      <button class="tbtn gas" data-taste="up">&#9650;</button>
+    </div>
+  </div>
+</div>
+<script src="game.js"></script>
+</body>
+</html>
