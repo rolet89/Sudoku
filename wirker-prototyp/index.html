@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#111820">
+<title>Wirker &ndash; Auftrag &amp; Material</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header id="kopf">
+  <button id="zurueck" class="kopf-btn" hidden aria-label="Zur&uuml;ck">&#8592;</button>
+  <div class="kopf-titel">
+    <strong id="kopfTitel">Auftr&auml;ge</strong>
+    <small id="kopfUnter">Werkstatt-Terminal</small>
+  </div>
+  <label class="admin-schalter" title="Administrator-Modus">
+    <input type="checkbox" id="adminAn">
+    <span>Admin</span>
+  </label>
+</header>
+
+<!-- ============ Ansicht: Auftragsliste ============ -->
+<main id="ansichtListe" class="ansicht aktiv">
+  <div class="filterleiste" id="filterleiste">
+    <button class="chip aktiv" data-filter="alle">Alle</button>
+    <button class="chip" data-filter="angelegt">Angelegt</button>
+    <button class="chip" data-filter="planung">Planung</button>
+    <button class="chip" data-filter="fertigung">Fertigung</button>
+  </div>
+  <div id="auftragsliste" class="liste"></div>
+  <p class="hinweis" id="listeLeer" hidden>Keine Auftr&auml;ge in diesem Status.</p>
+</main>
+
+<!-- ============ Ansicht: Materialeingabe ============ -->
+<main id="ansichtMaterial" class="ansicht">
+  <p class="gesperrt" id="materialGesperrt" hidden>Die Materialeingabe ist dem <b>Administrator-Modus</b> vorbehalten.<br>Schalter oben rechts einschalten.</p>
+
+  <div class="zeichnung-box" id="zeichnungBox">
+    <div class="zeichnung-kopf">
+      <span id="zeichnungName">Zeichnung</span>
+      <button id="zeichnungGross" class="mini-btn">Vollbild</button>
+    </div>
+    <div class="zeichnung-flaeche" id="zeichnungFlaeche"></div>
+  </div>
+
+  <div class="eingabe-box" id="eingabeBox">
+    <div class="auftrag-kopfzeile">
+      <div>
+        <b id="matAuftragNr">&ndash;</b>
+        <span id="matAuftragTeil" class="dezent"></span>
+      </div>
+      <span class="status-pille" id="matStatus">angelegt</span>
+    </div>
+
+    <div class="block">
+      <label class="block-titel">Werkstoff</label>
+      <div class="material-gitter" id="materialGitter"></div>
+      <div class="frei-zeile">
+        <input type="text" id="materialFrei" placeholder="Anderer Werkstoff &hellip;" autocomplete="off" enterkeyhint="done">
+        <button id="materialFreiOk" class="mini-btn">OK</button>
+      </div>
+    </div>
+
+    <div class="block">
+      <div class="block-kopf">
+        <label class="block-titel">Dimension</label>
+        <div class="form-umschalter" id="formUmschalter">
+          <button class="aktiv" data-form="flach">Flach</button>
+          <button data-form="rund">Rund</button>
+          <button data-form="rohr">Rohr</button>
+        </div>
+      </div>
+
+      <div class="masse" id="masseFlach">
+        <label class="mass"><span>Dicke</span><input class="zahl" id="mDicke" readonly inputmode="none" placeholder="0"><i>mm</i></label>
+        <label class="mass"><span>Breite</span><input class="zahl" id="mBreite" readonly inputmode="none" placeholder="0"><i>mm</i></label>
+        <label class="mass"><span>L&auml;nge</span><input class="zahl" id="mLaenge" readonly inputmode="none" placeholder="0"><i>mm</i></label>
+      </div>
+
+      <div class="masse" id="masseRund" hidden>
+        <label class="mass"><span>&#216; Durchmesser</span><input class="zahl" id="mDurchm" readonly inputmode="none" placeholder="0"><i>mm</i></label>
+        <label class="mass"><span>L&auml;nge</span><input class="zahl" id="mLaengeR" readonly inputmode="none" placeholder="0"><i>mm</i></label>
+      </div>
+
+      <div class="masse" id="masseRohr" hidden>
+        <label class="mass"><span>&#216; Au&szlig;en</span><input class="zahl" id="mAussen" readonly inputmode="none" placeholder="0"><i>mm</i></label>
+        <label class="mass"><span>Wandst&auml;rke</span><input class="zahl" id="mWand" readonly inputmode="none" placeholder="0"><i>mm</i></label>
+        <label class="mass"><span>L&auml;nge</span><input class="zahl" id="mLaengeRo" readonly inputmode="none" placeholder="0"><i>mm</i></label>
+      </div>
+    </div>
+
+    <div class="zusammenfassung" id="zusammenfassung">Noch kein Material gew&auml;hlt</div>
+
+    <label class="schalter-zeile">
+      <input type="checkbox" id="statusMit" checked>
+      <span>Auftrag dabei auf <b>Planung</b> setzen</span>
+    </label>
+
+    <div class="aktionen">
+      <button id="speichern" class="haupt-btn">Speichern &amp; einplanen</button>
+      <button id="naechster" class="neben-btn">N&auml;chster offener Auftrag</button>
+    </div>
+  </div>
+</main>
+
+<!-- ============ Ansicht: Planung ============ -->
+<main id="ansichtPlanung" class="ansicht">
+  <div class="plan-kopf">
+    <input type="search" id="planSuche" placeholder="Auftrag, Kunde oder Teil suchen &hellip;" autocomplete="off">
+  </div>
+  <div id="planListe" class="liste"></div>
+</main>
+
+<!-- ============ Navigation ============ -->
+<nav id="nav">
+  <button data-ziel="liste" class="aktiv"><span>&#9776;</span>Auftr&auml;ge</button>
+  <button data-ziel="material"><span>&#9881;</span>Material</button>
+  <button data-ziel="planung"><span>&#128197;</span>Planen</button>
+</nav>
+
+<!-- Planen von überall -->
+<button id="planFab" title="Planen (von überall)">Planen</button>
+
+<!-- ============ Zahlentastatur ============ -->
+<div id="numpad" class="numpad" hidden>
+  <div class="numpad-kopf">
+    <span id="numpadFeld">Ma&szlig;</span>
+    <output id="numpadWert">0</output>
+    <button id="numpadZu" class="mini-btn">Fertig</button>
+  </div>
+  <div class="numpad-tasten">
+    <button data-t="7">7</button><button data-t="8">8</button><button data-t="9">9</button>
+    <button data-t="back" class="grau">&#9003;</button>
+    <button data-t="4">4</button><button data-t="5">5</button><button data-t="6">6</button>
+    <button data-t="clear" class="grau">C</button>
+    <button data-t="1">1</button><button data-t="2">2</button><button data-t="3">3</button>
+    <button data-t="next" class="grau rowspan2">&#8594;<small>weiter</small></button>
+    <button data-t="0">0</button><button data-t="00">00</button><button data-t="," class="komma">,</button>
+  </div>
+</div>
+
+<!-- ============ Planungs-Dialog ============ -->
+<div id="planDialog" class="dialog" hidden>
+  <div class="dialog-inhalt">
+    <h2 id="planTitel">Auftrag einplanen</h2>
+    <p class="dezent" id="planAuftrag"></p>
+    <label class="feld"><span>Termin</span><input type="date" id="planTermin"></label>
+    <label class="feld"><span>Maschine</span>
+      <select id="planMaschine">
+        <option>Laser 1</option><option>Laser 2</option><option>Abkantpresse</option>
+        <option>Dreherei</option><option>Schwei&szlig;erei</option>
+      </select>
+    </label>
+    <label class="feld"><span>Bemerkung</span><input type="text" id="planBemerkung" placeholder="optional"></label>
+    <div class="dialog-aktionen">
+      <button id="planAbbruch" class="neben-btn">Abbrechen</button>
+      <button id="planOk" class="haupt-btn">Einplanen</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============ Auftragswahl für „von überall planen" ============ -->
+<div id="wahlDialog" class="dialog" hidden>
+  <div class="dialog-inhalt">
+    <h2>Welcher Auftrag?</h2>
+    <input type="search" id="wahlSuche" placeholder="Suchen &hellip;" autocomplete="off">
+    <div id="wahlListe" class="wahl-liste"></div>
+    <div class="dialog-aktionen">
+      <button id="wahlAbbruch" class="neben-btn">Abbrechen</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast" hidden></div>
+
+<script src="zeichnungen.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
